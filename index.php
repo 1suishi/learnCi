@@ -11,9 +11,6 @@ function detect_uri() {
         return '';
     }
 	
-	
-
-
     $uri = $_SERVER['REQUEST_URI'];	
     if (strpos($uri, $_SERVER['SCRIPT_NAME']) === 0) {
         $uri = substr($uri, strlen($_SERVER['SCRIPT_NAME']));
@@ -45,18 +42,62 @@ class Welcome {
 	function hello() {
 		echo 'My first Php Framework!';
 	}
+	
+	function saysomething($str) {
+         echo $str.", I'am the php framework you created!";
+    }
 }
 
+
+include('routes.php');
+
+function parse_routes() {
+    global $uri_segments, $routes, $rsegments;
+
+    $uri = implode('/', $uri_segments);    
+
+    if (isset($routes[$uri])) {
+        $rsegments = explode('/', $routes[$uri]);
+
+        return set_request($rsegments);        
+    }
+}
+
+function set_request($segments = array()) {
+    global $class, $method;
+
+    $class = $segments[0];
+
+    if (isset($segments[1])) {
+        $method = $segments[1];
+    } else {
+        $method = 'index';
+    }
+}
+
+//get the uri
 $uri = detect_uri();
+//deal with  uri
 $uri_segments = explode_uri($uri);
 
-$class = $uri_segments[0];
-$method = $uri_segments[1];
+//print_r( $uri_segments);
 
+$class = '';
+$method = '';
+$rsegments = array();
 
-// invoke class and method
+parse_routes();
+
 $CI = new $class();
- 
-//echo detect_uri(); 
-$CI->$method();
+
+call_user_func_array(array(&$CI, $method), array_slice($rsegments, 2));
+
+
+
+
+
+
+
+
+
 
