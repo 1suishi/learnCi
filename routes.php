@@ -4,8 +4,8 @@
  * routes.php self_define route
  */
 
-$routes['default_controller'] = 'home';
+$route['default_controller'] = 'home';
 
-$routes['welcome/hello'] = 'welcome/saysomething/hello';
+$route['welcome/hello'] = 'welcome/saysomething/hello';
 
 ?>
