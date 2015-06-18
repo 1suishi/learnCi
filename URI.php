@@ -18,7 +18,7 @@ class CI_URI {
     var $rsegments;
 
     function fetch_uri_string() {
-        if ($uri = $this->detect_uri()) {
+        if ( $uri = $this->detect_uri() ) {
             $this->set_uri_string($uri);
             return;
         }
